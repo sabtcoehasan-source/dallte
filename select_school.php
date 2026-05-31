@@ -1,9 +1,5 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
 session_start();
-
-// الاتصال بقاعدة البيانات
 require_once 'dashboard/init.php';
 $user = new User();
 
@@ -53,4 +49,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: saudi_schools.html");
     exit();
 }
-?>

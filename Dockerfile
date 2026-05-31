@@ -1,18 +1,12 @@
-FROM php:8.2-apache
+FROM php:8.2-cli-bookworm
 
-RUN docker-php-ext-install mysqli pdo_mysql \
-    && a2enmod rewrite
+RUN docker-php-ext-install mysqli pdo_mysql
 
-WORKDIR /var/www/html
+WORKDIR /app
 
 COPY . .
 
-RUN if [ -f composer.json ]; then \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && composer install --no-dev --optimize-autoloader --no-interaction; \
-    fi
+EXPOSE 8080
 
-COPY docker/start.sh /start.sh
-RUN chmod +x /start.sh
-
-CMD ["/start.sh"]
+# Railway sets PORT at runtime — must bind 0.0.0.0
+CMD ["sh", "-c", "exec php -S 0.0.0.0:${PORT:-8080} -t ."]

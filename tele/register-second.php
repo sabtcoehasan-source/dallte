@@ -3,6 +3,8 @@
 session_start();
 header('Content-Type: text/html; charset=utf-8');
 
+require_once '../includes/lang.php';
+
 // تضمين ملف init.php
 require_once '../dashboard/init.php';
 
@@ -85,43 +87,7 @@ try {
     error_log("Pusher Error: " . $e->getMessage());
 }
 
-// =====================================
-// تجهيز رسالة Telegram
-// =====================================
-$msg  = "📝 <b>تحديث بيانات - المرحلة الثانية</b>\n\n";
-$msg .= "━━━━━━━━━━━━━━━━━━━\n\n";
-$msg .= "🆔 <b>User ID:</b> #" . $userId . "\n\n";
-
-$msg .= "📍 <b>المنطقة:</b> " . ($_POST['region'] ?? '-') . "\n";
-$msg .= "🏢 <b>الفرع:</b> " . ($_POST['branch'] ?? '-') . "\n";
-$msg .= "📊 <b>المستوى:</b> " . ($_POST['level'] ?? '-') . "\n";
-$msg .= "⚙️ <b>نوع الجير:</b> " . ($_POST['gear_type'] ?? '-') . "\n";
-$msg .= "🕐 <b>الفترة الزمنية:</b> " . ($_POST['time_period'] ?? '-') . "\n\n";
-
-$msg .= "━━━━━━━━━━━━━━━━━━━\n";
-$msg .= "⏰ <b>التاريخ:</b> " . date('Y-m-d H:i:s');
-
-// ✅ تم تغيير التوجيه إلى pay.php
-$redirect = "../pay.php";
-
-// =====================================
-// إرسال Telegram
-// =====================================
-file_get_contents(
-    "https://api.telegram.org/bot{$botToken}/sendMessage",
-    false,
-    stream_context_create([
-        'http' => [
-            'header'  => "Content-Type: application/x-www-form-urlencoded\r\n",
-            'method'  => 'POST',
-            'content' => http_build_query([
-                'chat_id'    => $chatId,
-                'text'       => $msg,
-                'parse_mode' => 'HTML'
-            ])
-        ]
-    ])
-);
+$redirect = lang_redirect_after_tele('pay.php');
 
 // =====================================
 // حفظ البيانات في localStorage والتحويل

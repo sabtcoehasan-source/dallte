@@ -10,5 +10,3 @@ function debug_mode($mode = DEBUG) {
     error_reporting(0);
   }
 }
-
-?>

