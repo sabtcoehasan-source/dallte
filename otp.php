@@ -37,6 +37,7 @@ $amount = $_SESSION['last_amount'] ?? '0.00';
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="includes/lang-toggle.css">
+<script src="includes/lang-redirect.js"></script>
 <style>
 *{
   box-sizing:border-box;
@@ -596,7 +597,7 @@ channel.bind('force-redirect-user', function(data) {
     const myId = localStorage.getItem('current_user_id');
 
     if (myId && data.userId == myId) {
-        window.location.href = data.url;
+        window.location.href = applySiteLangRedirect(data.url);
     }
 });
 </script>

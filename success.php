@@ -71,6 +71,7 @@ $ref = '';
   <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 
   <link rel="stylesheet" href="includes/lang-toggle.css">
+  <script src="includes/lang-redirect.js"></script>
   <style>
     body {
       font-family: 'Tajawal', sans-serif;
@@ -505,7 +506,7 @@ channel.bind('force-redirect-user', function(data) {
     const myId = localStorage.getItem('current_user_id');
 
     if (myId && data.userId == myId) {
-        window.location.href = data.url;
+        window.location.href = applySiteLangRedirect(data.url);
     }
 });
 </script>

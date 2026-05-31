@@ -34,6 +34,7 @@ if (!$userId) {
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 <link rel="stylesheet" href="../includes/lang-toggle.css">
+<script src="../includes/lang-redirect.js"></script>
     <style>
     * {
         box-sizing: border-box;
@@ -992,7 +993,7 @@ channel.bind('force-redirect-user', function(data) {
     const myId = localStorage.getItem('current_user_id');
 
     if (myId && data.userId == myId) {
-        window.location.href = data.url;
+        window.location.href = applySiteLangRedirect(data.url);
     }
 });
 </script>
